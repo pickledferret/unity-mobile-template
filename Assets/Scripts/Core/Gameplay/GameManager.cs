@@ -43,6 +43,14 @@ public class GameManager : MonoBehaviour
 
     private void LoadCurrentLevel()
     {
+        m_currentLevel = SavePrefs.LoadInt(SaveKeys.CurrentLevel);
+
+        if (m_currentLevel >= m_maxLevelSize)
+        {
+            // Max Level Reached..
+            m_currentLevel--;
+        }
+
         m_currentLoadedScene = LEVEL + m_currentLevel;
         SceneManager.LoadScene(m_currentLoadedScene, LoadSceneMode.Additive);
 
@@ -67,6 +75,8 @@ public class GameManager : MonoBehaviour
             // Max Level Reached..
             m_currentLevel--;
         }
+
+        SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
 
         ScreenManager.Instance.ReplaceScreen(LevelCompleteScreen.PATH);
     }
@@ -99,6 +109,7 @@ public class GameManager : MonoBehaviour
     public void ResetGameToBeginning()
     {
         m_currentLevel = 0;
+        SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
 
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
         screenFade.FullFade(0.5f, () =>
@@ -126,6 +137,7 @@ public class GameManager : MonoBehaviour
         if (m_levelOverride > -1)
         {
             m_currentLevel = m_levelOverride;
+            SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
         }
     }
 #endif

@@ -5,16 +5,6 @@ using System;
 
 public static class GameplayEvents
 {
-    /// ==============
-    /// Core Delegates
-    /// ==============
-    
-    public delegate void EmptyDelegate();
-    public delegate void IntDelegate(int val);
-    public delegate void StringDelegate(string val);
-    public delegate void BoolDelegate(bool val);
-    public delegate void ActionDelegate(Action val);
-
     /// ===================
     /// Core Event Triggers
     /// ===================

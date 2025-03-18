@@ -39,6 +39,8 @@ public class PlayModeBootstrap
         if (!EditorApplication.isPlayingOrWillChangePlaymode)
             return;
 
+        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+
         m_savedScenes.Clear();
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
