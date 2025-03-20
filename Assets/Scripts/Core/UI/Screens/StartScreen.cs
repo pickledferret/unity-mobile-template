@@ -8,6 +8,6 @@ public class StartScreen : ScreenBase
     {
         AudioManager audioManager = AudioManager.Instance;
         audioManager.PlayUIAudio(audioManager.AudioSoundList.ui.uiButtonPress);
-        GameManager.Instance.StartLevel();
+        GameManager.Instance.LevelStarted();
     }
 }

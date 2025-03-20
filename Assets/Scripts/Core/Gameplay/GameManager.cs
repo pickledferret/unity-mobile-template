@@ -57,7 +57,21 @@ public class GameManager : MonoBehaviour
         ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
     }
 
-    public void StartLevel()
+    private void UnloadCurrentLevel()
+    {
+        Scene sceneToUnload = SceneManager.GetSceneByName(m_currentLoadedScene);
+        if (sceneToUnload.IsValid() && sceneToUnload.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(m_currentLoadedScene);
+            m_currentLoadedScene = string.Empty;
+        }
+        else
+        {
+            Debug.LogWarning($"Scene {m_currentLoadedScene} is not valid or not loaded. Cannot unload scene.");
+        }
+    }
+
+    public void LevelStarted()
     {
         GameplayEvents.TriggerLevelStart();
         ScreenManager.Instance.ReplaceScreen(GameScreen.PATH);
@@ -101,7 +115,7 @@ public class GameManager : MonoBehaviour
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
         screenFade.FullFade(0.5f, () =>
         {
-            SceneManager.UnloadSceneAsync(m_currentLoadedScene);
+            UnloadCurrentLevel();
             LoadCurrentLevel();
         }, 0.1f, 0.5f, null);
     }
@@ -114,6 +128,7 @@ public class GameManager : MonoBehaviour
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
         screenFade.FullFade(0.5f, () =>
         {
+            UnloadCurrentLevel();
             LoadCurrentLevel();
         }, 0.1f, 0.5f, null);
     }
@@ -123,6 +138,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             LevelCompleted();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ResetGameToBeginning();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
