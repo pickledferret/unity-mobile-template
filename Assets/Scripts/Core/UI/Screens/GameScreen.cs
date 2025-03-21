@@ -2,6 +2,6 @@ using UnityEngine;
 
 public class GameScreen : ScreenBase
 {
-    public static string PATH = "Prefabs/UI/Screens/GameScreen";
+    public const string PATH = "Prefabs/UI/Screens/GameScreen";
 
 }

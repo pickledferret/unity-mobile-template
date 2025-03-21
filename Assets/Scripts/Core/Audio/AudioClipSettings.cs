@@ -15,13 +15,13 @@ public static class AudioClipSettingsExtensions
     {
         if (clips == null || clips.Count == 0)
         {
-            Debug.LogWarning("No audio clips available.");
+            Devlog.LogWarning("No audio clips available.");
             return null;
         }
 
         if (clips.Count == 1 && clips.Contains(excludedClip))
         {
-            Debug.LogWarning("Only one clip available, and it's excluded.");
+            Devlog.LogWarning("Only one clip available, and it's excluded.");
             return null;
         }
 

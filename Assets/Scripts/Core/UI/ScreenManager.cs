@@ -33,7 +33,7 @@ public class ScreenManager : MonoBehaviour
         ScreenBase loadedScreen = Resources.Load<ScreenBase>(screenPath);
         if (loadedScreen == null)
         {
-            Debug.LogError($"[ScreenManager] Screen prefab not found at path: {screenPath}");
+            Devlog.LogError($"[ScreenManager] Screen prefab not found at path: {screenPath}");
             return;
         }
 
@@ -88,14 +88,14 @@ public class ScreenManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(popUpPath))
         {
-            Debug.LogError("PopUp path is empty.");
+            Devlog.LogError("PopUp path is empty.");
             return null;
         }
 
         PopUpBase popUpPrefab = Resources.Load<PopUpBase>(popUpPath);
         if (popUpPrefab == null)
         {
-            Debug.LogError($"PopUp not found at path: {popUpPath}");
+            Devlog.LogError($"PopUp not found at path: {popUpPath}");
             return null;
         }
 

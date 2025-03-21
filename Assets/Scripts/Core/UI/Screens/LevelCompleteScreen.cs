@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelCompleteScreen : ScreenBase
 {
-    public static string PATH = "Prefabs/UI/Screens/LevelCompleteScreen";
+    public const string PATH = "Prefabs/UI/Screens/LevelCompleteScreen";
 
     public void OnContinuePressed()
     {

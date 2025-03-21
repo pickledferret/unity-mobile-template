@@ -70,7 +70,8 @@ public static class SavePrefs
 
     public static void SaveList<T>(string key, List<T> value)
     {
-        string json = JsonUtility.ToJson(new SerializableList<T>(value));
+        SerializableList<T> list = new SerializableList<T>(value);
+        string json = JsonUtility.ToJson(list);
         SaveString(key, json);
     }
 

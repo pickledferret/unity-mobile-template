@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     private int m_currentLevel = 0;
     public int CurrentLevel => m_currentLevel;
 
-    private string m_currentLoadedScene;
+    private StringBuilder m_currentLoadedScene;
 
     private void Awake()
     {
@@ -38,7 +39,14 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         SetDebugLevelOverride();
 #endif
+        PlayBackgroundMusic();
         LoadCurrentLevel();
+    }
+
+    private void PlayBackgroundMusic()
+    {
+        AudioManager audioManager = AudioManager.Instance;
+        audioManager.PlayMusicAudio(audioManager.AudioSoundList.music.backgroundMusic);
     }
 
     private void LoadCurrentLevel()
@@ -51,23 +59,24 @@ public class GameManager : MonoBehaviour
             m_currentLevel--;
         }
 
-        m_currentLoadedScene = LEVEL + m_currentLevel;
-        SceneManager.LoadScene(m_currentLoadedScene, LoadSceneMode.Additive);
+        m_currentLoadedScene = new StringBuilder();
+        m_currentLoadedScene.Append(LEVEL).Append(m_currentLevel);
+        SceneManager.LoadScene(m_currentLoadedScene.ToString(), LoadSceneMode.Additive);
 
         ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
     }
 
     private void UnloadCurrentLevel()
     {
-        Scene sceneToUnload = SceneManager.GetSceneByName(m_currentLoadedScene);
+        Scene sceneToUnload = SceneManager.GetSceneByName(m_currentLoadedScene.ToString());
         if (sceneToUnload.IsValid() && sceneToUnload.isLoaded)
         {
-            SceneManager.UnloadSceneAsync(m_currentLoadedScene);
-            m_currentLoadedScene = string.Empty;
+            SceneManager.UnloadSceneAsync(m_currentLoadedScene.ToString());
+            m_currentLoadedScene.Clear();
         }
         else
         {
-            Debug.LogWarning($"Scene {m_currentLoadedScene} is not valid or not loaded. Cannot unload scene.");
+            Devlog.LogWarning($"Scene {m_currentLoadedScene.ToString()} is not valid or not loaded. Cannot unload scene.");
         }
     }
 
@@ -113,11 +122,7 @@ public class GameManager : MonoBehaviour
     private void FadeOutAndLoadCurrentLevel()
     {
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
-        screenFade.FullFade(0.5f, () =>
-        {
-            UnloadCurrentLevel();
-            LoadCurrentLevel();
-        }, 0.1f, 0.5f, null);
+        screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
     }
 
     public void ResetGameToBeginning()
@@ -126,11 +131,13 @@ public class GameManager : MonoBehaviour
         SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
 
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
-        screenFade.FullFade(0.5f, () =>
-        {
-            UnloadCurrentLevel();
-            LoadCurrentLevel();
-        }, 0.1f, 0.5f, null);
+        screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
+    }
+
+    private void ReloadLevelScene()
+    {
+        UnloadCurrentLevel();
+        LoadCurrentLevel();
     }
 
     private void Update()

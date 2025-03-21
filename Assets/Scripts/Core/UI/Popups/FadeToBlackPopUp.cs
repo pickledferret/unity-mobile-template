@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,10 +14,7 @@ public class FadeToBlackPopUp : PopUpBase
     /// </summary>
     public void FullFade(float fadeOutTime, System.Action onBlackScreenCallback, float delayBeforeFadeIn, float fadeInTime, System.Action fadeCompleteCallback)
     {
-        StartCoroutine(FadeSequence(fadeOutTime, onBlackScreenCallback, delayBeforeFadeIn, fadeInTime, () => {
-            fadeCompleteCallback?.Invoke();
-            ClosePopUp();
-        }));
+        StartCoroutine(FadeSequence(fadeOutTime, onBlackScreenCallback, delayBeforeFadeIn, fadeInTime, fadeCompleteCallback));
     }
 
     /// <summary>
@@ -24,10 +22,7 @@ public class FadeToBlackPopUp : PopUpBase
     /// </summary>
     public void FadeOut(float duration, System.Action onComplete = null)
     {
-        StartCoroutine(Fade(0f, 1f, duration, () => {
-            onComplete?.Invoke();
-            ClosePopUp();
-        }));
+        StartCoroutine(Fade(0f, 1f, duration, onComplete));
     }
 
     /// <summary>
@@ -38,12 +33,9 @@ public class FadeToBlackPopUp : PopUpBase
         Color startColor = m_image.color;
         startColor.a = 1f;
         m_image.color = startColor;
-        StartCoroutine(Fade(1f, 0f, duration, () => {
-            onComplete?.Invoke();
-            ClosePopUp();
-        }));
-    }
 
+        StartCoroutine(Fade(1f, 0f, duration, onComplete));
+    }
 
     private IEnumerator Fade(float startAlpha, float targetAlpha, float duration, System.Action onComplete)
     {
@@ -63,6 +55,8 @@ public class FadeToBlackPopUp : PopUpBase
         m_image.color = new Color(m_image.color.r, m_image.color.g, m_image.color.b, targetAlpha);
 
         onComplete?.Invoke();
+
+        ClosePopUp();
     }
 
 

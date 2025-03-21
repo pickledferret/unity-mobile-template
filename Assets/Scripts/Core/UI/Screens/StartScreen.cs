@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StartScreen : ScreenBase
 {
-    public static string PATH = "Prefabs/UI/Screens/StartScreen";
+    public const string PATH = "Prefabs/UI/Screens/StartScreen";
 
     public void OnStartPressed()
     {

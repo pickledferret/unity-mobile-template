@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelFailedScreen : ScreenBase
 {
-    public static string PATH = "Prefabs/UI/Screens/LevelFailedScreen";
+    public const string PATH = "Prefabs/UI/Screens/LevelFailedScreen";
 
     public void OnResetPressed()
     {

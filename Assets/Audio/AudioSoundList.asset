@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music:
     backgroundMusic:
-      audioClip: {fileID: 8300000, guid: 00042ec422b33294fb8a602f3813bb0d, type: 3}
-      volume: 1
+      audioClip: {fileID: 8300000, guid: a9a786849f97eef4d9241f83083d0c49, type: 3}
+      volume: 0.5
   sfx:
     levelCompleteSFX:
-      audioClip: {fileID: 8300000, guid: 00042ec422b33294fb8a602f3813bb0d, type: 3}
+      audioClip: {fileID: 8300000, guid: 77d5b7cb4624dd347beb4fe09cdd098b, type: 3}
       volume: 1
   ui:
     uiButtonPress:
-      audioClip: {fileID: 8300000, guid: de0454a5c046823439464c52da745b17, type: 3}
+      audioClip: {fileID: 8300000, guid: e9f31bd5a1578a043a7099ad88d15313, type: 3}
       volume: 0.35
