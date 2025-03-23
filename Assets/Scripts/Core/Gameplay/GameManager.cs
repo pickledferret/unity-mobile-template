@@ -1,26 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private const string LEVEL = "Level";
-
     public static GameManager Instance { get; private set; }
-
-    [SerializeField] private int m_maxLevelSize = 12;
+    public static int CurrentLevelIndex => Instance.m_currentLevelIndex;
 
     [Header("Debug")]
     [Tooltip("Only Works In Editor - Overrides the level loaded to selected index, -1 to ignore.")]
     [SerializeField] private int m_levelOverride = -1;
+    [SerializeField] private LevelList m_levelList;
 
-    private int m_currentLevel = 0;
-    public int CurrentLevel => m_currentLevel;
+    private int m_currentLevelIndex = 0;
 
-    private StringBuilder m_currentLoadedScene;
+    private List<string> m_loadedLevelList;
+    private string m_currentLoadedSceneName;
 
     private void Awake()
     {
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        m_loadedLevelList = m_levelList.GetSceneNames();
+
 #if UNITY_EDITOR
         SetDebugLevelOverride();
 #endif
@@ -51,32 +53,31 @@ public class GameManager : MonoBehaviour
 
     private void LoadCurrentLevel()
     {
-        m_currentLevel = SavePrefs.LoadInt(SaveKeys.CurrentLevel);
-
-        if (m_currentLevel >= m_maxLevelSize)
+        if (m_loadedLevelList == null || m_loadedLevelList.Count == 0)
         {
-            // Max Level Reached..
-            m_currentLevel--;
+            Devlog.LogError("No scenes found in the loaded level list.");
+            return;
         }
 
-        m_currentLoadedScene = new StringBuilder();
-        m_currentLoadedScene.Append(LEVEL).Append(m_currentLevel);
-        SceneManager.LoadScene(m_currentLoadedScene.ToString(), LoadSceneMode.Additive);
+        m_currentLevelIndex = SavePrefs.LoadInt(SaveKeys.CurrentLevelIndex);
+
+        m_currentLoadedSceneName = m_loadedLevelList[m_currentLevelIndex];
+
+        SceneManager.LoadScene(m_currentLoadedSceneName, LoadSceneMode.Additive);
 
         ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
     }
 
     private void UnloadCurrentLevel()
     {
-        Scene sceneToUnload = SceneManager.GetSceneByName(m_currentLoadedScene.ToString());
+        Scene sceneToUnload = SceneManager.GetSceneByName(m_currentLoadedSceneName);
         if (sceneToUnload.IsValid() && sceneToUnload.isLoaded)
         {
-            SceneManager.UnloadSceneAsync(m_currentLoadedScene.ToString());
-            m_currentLoadedScene.Clear();
+            SceneManager.UnloadSceneAsync(m_currentLoadedSceneName);
         }
         else
         {
-            Devlog.LogWarning($"Scene {m_currentLoadedScene.ToString()} is not valid or not loaded. Cannot unload scene.");
+            Devlog.LogWarning($"Scene {m_currentLoadedSceneName} is not valid or not loaded. Cannot unload scene.");
         }
     }
 
@@ -91,15 +92,15 @@ public class GameManager : MonoBehaviour
         AudioManager audioManager = AudioManager.Instance;
         audioManager.PlaySFXAudio(audioManager.AudioSoundList.sfx.levelCompleteSFX);
 
-        m_currentLevel++;
+        m_currentLevelIndex++;
 
-        if (m_currentLevel == m_maxLevelSize)
+        if (m_currentLevelIndex == m_loadedLevelList.Count)
         {
-            // Max Level Reached..
-            m_currentLevel--;
+            // Max Level Reached.. Go back to the start.
+            m_currentLevelIndex = 0;
         }
 
-        SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
+        SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
 
         ScreenManager.Instance.ReplaceScreen(LevelCompleteScreen.PATH);
     }
@@ -127,8 +128,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetGameToBeginning()
     {
-        m_currentLevel = 0;
-        SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
+        m_currentLevelIndex = 0;
+        SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
 
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
         screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
@@ -163,8 +164,8 @@ public class GameManager : MonoBehaviour
     {
         if (m_levelOverride > -1)
         {
-            m_currentLevel = m_levelOverride;
-            SavePrefs.SaveInt(SaveKeys.CurrentLevel, m_currentLevel);
+            m_currentLevelIndex = m_levelOverride;
+            SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
         }
     }
 #endif

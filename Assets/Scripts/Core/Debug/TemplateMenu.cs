@@ -1,9 +1,12 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
-public static class DebugModeToggler
+public static class TemplateMenu
 {
+
     static readonly NamedBuildTarget[] s_buildTargets = new NamedBuildTarget[]
     {
             NamedBuildTarget.Standalone,
@@ -12,13 +15,20 @@ public static class DebugModeToggler
             NamedBuildTarget.WebGL
     };
 
-    [MenuItem("Template/Toggle Debug Mode")]
+    [MenuItem("Template/Clear Player Prefs")]
+    public static void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        Devlog.Log($"Claered all player prefs.");
+    }
+
+    [MenuItem("Template/Debug/Toggle Debug Mode")]
     public static void EnableDebugMode()
     {
         ToggleDevLogSymbol(true);
     }
 
-    [MenuItem("Template/Toggle Shipping Mode")]
+    [MenuItem("Template/Debug/Toggle Shipping Mode")]
     public static void DisableDebugMode()
     {
         ToggleDevLogSymbol(false);
@@ -52,3 +62,4 @@ public static class DebugModeToggler
         }
     }
 }
+#endif

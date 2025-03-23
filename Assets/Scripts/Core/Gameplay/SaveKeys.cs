@@ -1,4 +1,14 @@
 public static class SaveKeys
 {
-    public const string CurrentLevel = "current_level";
+    /// =========
+    /// Core Keys
+    /// =========
+
+    public const string CurrentLevelIndex = "current_level_index";
+
+    /// ===========
+    /// Custom Keys
+    /// ===========
+    
+    //..
 }
