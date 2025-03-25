@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        m_currentLevelIndex = SavePrefs.LoadInt(SaveKeys.CurrentLevelIndex);
+        m_currentLevelIndex = SavePrefs.LoadInt(SaveKeys.Progression.CurrentLevelIndex);
 
         m_currentLoadedSceneName = m_loadedLevelList[m_currentLevelIndex];
 
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
             m_currentLevelIndex = 0;
         }
 
-        SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
+        SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
 
         ScreenManager.Instance.ReplaceScreen(LevelCompleteScreen.PATH);
     }
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
     public void ResetGameToBeginning()
     {
         m_currentLevelIndex = 0;
-        SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
+        SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
 
         FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
         screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
@@ -138,31 +138,13 @@ public class GameManager : MonoBehaviour
         LoadCurrentLevel();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            LevelCompleted();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            ResetGameToBeginning();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            LevelFailed();
-        }
-    }
-
 #if UNITY_EDITOR
     private void SetDebugLevelOverride()
     {
         if (m_levelOverride > -1)
         {
             m_currentLevelIndex = m_levelOverride;
-            SavePrefs.SaveInt(SaveKeys.CurrentLevelIndex, m_currentLevelIndex);
+            SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
         }
     }
 #endif
