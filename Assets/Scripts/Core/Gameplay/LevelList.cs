@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Linq;
@@ -74,6 +73,12 @@ public class LevelList : ScriptableObject
         }
 
         EditorBuildSettings.scenes = newSettings.ToArray();
+    }
+
+    [Button("Open Build Settings")]
+    void OpenBuildSettings()
+    {
+        EditorApplication.ExecuteMenuItem("File/Build Profiles");
     }
 #endif
 

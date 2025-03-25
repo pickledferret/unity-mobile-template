@@ -25,7 +25,6 @@ public class ButtonDrawer : Editor
                 {
                     method.Invoke(target, null);
                 }
-                GUILayout.Space(20);
             }
         }
     }
