@@ -138,6 +138,12 @@ public class GameManager : MonoBehaviour
         LoadCurrentLevel();
     }
 
+    public int GetNumberOfLevels()
+    {
+        return m_loadedLevelList.Count;
+    }
+
+
 #if UNITY_EDITOR
     private void SetDebugLevelOverride()
     {

@@ -113,11 +113,11 @@ public class CurrencyManager : MonoBehaviour
     /// <param name="currencyName">CurrencyName should be pre-defined in SaveKeys.cs</param>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public bool CanAfford(string currencyName, float amount)
+    public bool CanAfford(string currencyName, long amount)
     {
         if (IsCurrencyRegistered(currencyName))
         {
-            if (m_currencies[currencyName] >= amount)
+            if (amount >= 0f && m_currencies[currencyName] >= amount)
             {
                 return true;
             }
