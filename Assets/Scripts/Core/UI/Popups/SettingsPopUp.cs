@@ -14,7 +14,7 @@ public class SettingsPopUp : PopUpBase
     [SerializeField] private Slider m_musicSlider;
     [SerializeField] private Slider m_sfxSlider;
 
-    [SerializeField] private Button m_debugButton;
+    [SerializeField] private GameObject m_debugButtonGroup;
 
     private void Awake()
     {
@@ -36,10 +36,9 @@ public class SettingsPopUp : PopUpBase
     private void ConfigDebugButton()
     {
 #if UNITY_EDITOR || DEVLOG
-        m_debugButton.gameObject.SetActive(true);
-        m_debugButton.onClick.AddListener(() => ScreenManager.Instance.PushScreen(DebugScreen.PATH, false));
+        m_debugButtonGroup.SetActive(true);
 #else
-        m_debugButton.gameObject.SetActive(false);
+        m_debugButtonGroup.SetActive(false);
 #endif
     }
 
@@ -61,5 +60,11 @@ public class SettingsPopUp : PopUpBase
         m_content.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() => ClosePopUp());
     }
 
+#if UNITY_EDITOR || DEVLOG
+    public void OnDebugButtonPressed()
+    {
+        ScreenManager.Instance.PushScreen(DebugScreen.PATH, false);
+    }
+#endif
 
 }

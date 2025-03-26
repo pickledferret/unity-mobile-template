@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SplashScreen.OnSplashScreenFinished += OnSplashScreenFinished;
     }
 
     private void Start()
@@ -40,6 +42,17 @@ public class GameManager : MonoBehaviour
 #endif
         PlayBackgroundMusic();
         LoadCurrentLevel();
+    }
+
+    private void OnSplashScreenFinished()
+    {
+        SplashScreen.OnSplashScreenFinished -= OnSplashScreenFinished;
+        DisplayStartScreen();
+    }
+
+    private void DisplayStartScreen()
+    {
+        ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
     }
 
     private void PlayBackgroundMusic()
@@ -57,12 +70,9 @@ public class GameManager : MonoBehaviour
         }
 
         m_currentLevelIndex = SavePrefs.LoadInt(SaveKeys.Progression.CurrentLevelIndex);
-
         m_currentLoadedSceneName = m_loadedLevelList[m_currentLevelIndex];
 
         SceneManager.LoadScene(m_currentLoadedSceneName, LoadSceneMode.Additive);
-
-        ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
     }
 
     private void UnloadCurrentLevel()
@@ -136,13 +146,13 @@ public class GameManager : MonoBehaviour
     {
         UnloadCurrentLevel();
         LoadCurrentLevel();
+        DisplayStartScreen();
     }
 
     public int GetNumberOfLevels()
     {
         return m_loadedLevelList.Count;
     }
-
 
 #if UNITY_EDITOR
     private void SetDebugLevelOverride()

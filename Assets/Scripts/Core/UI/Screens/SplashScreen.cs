@@ -1,9 +1,12 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public class SplashScreen : MonoBehaviour
 {
     [SerializeField] private Animator m_animator;
+
+    public static event Action OnSplashScreenFinished;
 
     private void Start()
     {
@@ -20,8 +23,11 @@ public class SplashScreen : MonoBehaviour
             time += Time.deltaTime;
             transform.SetAsLastSibling();
             yield return null;
-        }while (time < animationLength);
-        
+        }
+        while (time < animationLength);
+
+        OnSplashScreenFinished?.Invoke();
+
         Destroy(gameObject);
     }
 }
