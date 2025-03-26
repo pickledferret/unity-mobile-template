@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public static class TemplateMenu
@@ -19,7 +18,7 @@ public static class TemplateMenu
     public static void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
-        Devlog.Log($"Claered all player prefs.");
+        Devlog.Log("Cleared all player prefs.");
     }
 
     [MenuItem("Template/Debug/Toggle Debug Mode")]
@@ -44,17 +43,16 @@ public static class TemplateMenu
             {
                 if (!defines.Contains(Devlog.DEVLOG_SYMBOL))
                 {
-                    Devlog.Log($"Added {Devlog.DEVLOG_SYMBOL} to {buildTarget.TargetName}");
                     defines = string.IsNullOrEmpty(defines) ? Devlog.DEVLOG_SYMBOL : $"{defines};{Devlog.DEVLOG_SYMBOL}";
-                    Devlog.Log($"Added {defines}");
                     PlayerSettings.SetScriptingDefineSymbols(buildTarget, defines);
+                    Debug.Log($"Added {Devlog.DEVLOG_SYMBOL} to: {buildTarget.TargetName}");
                 }
             }
             else
             {
                 if (defines.Contains(Devlog.DEVLOG_SYMBOL))
                 {
-                    Devlog.Log($"Removed {Devlog.DEVLOG_SYMBOL} from {buildTarget}");
+                    Devlog.Log($"Removed {Devlog.DEVLOG_SYMBOL} from: {buildTarget.TargetName}");
                     defines = defines.Replace(Devlog.DEVLOG_SYMBOL, string.Empty).Replace(";;", ";").Trim(';');
                     PlayerSettings.SetScriptingDefineSymbols(buildTarget, defines);
                 }

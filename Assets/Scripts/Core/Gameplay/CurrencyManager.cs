@@ -52,13 +52,14 @@ public class CurrencyManager : MonoBehaviour
     {
         if (IsCurrencyRegistered(currencyName))
         {
-            Devlog.LogWarning($"{name}: Currency: {currencyName} already registered.");
+            Devlog.LogWarning($"[CurrencyManager]: Currency {currencyName} already registered.");
         }
         else
         {
             long savedAmount = SavePrefs.LoadLong(currencyName, initialAmount);
             m_currencies[currencyName] = savedAmount;
-            Devlog.Log($"{name}: Loaded currency {currencyName} :: {initialAmount}");
+
+            Devlog.Log($"[CurrencyManager]: Loaded currency {currencyName} :: {initialAmount}");
         }
     }
 
@@ -123,7 +124,7 @@ public class CurrencyManager : MonoBehaviour
             }
             else
             {
-                Devlog.LogWarning($"{name}: Not enough {currencyName} to spend.");
+                Devlog.LogWarning($"[CurrencyManager]: Not enough currency: {currencyName} to spend.");
                 return false;
             }
         }
@@ -143,7 +144,7 @@ public class CurrencyManager : MonoBehaviour
         {
             return m_currencies[currencyName];
         }
-        Devlog.LogError($"{currencyName} is not a registered currency.");
+        Devlog.LogError($"[CurrencyManager]: {currencyName} is not a registered currency.");
         return -1;
     }
 
@@ -157,7 +158,8 @@ public class CurrencyManager : MonoBehaviour
     {
         if (IsCurrencyRegistered(currencyName))
         {
-            Devlog.Log($"{name}: Currency {currencyName} value overridden from {m_currencies[currencyName]} to {amount}.");
+            long currentAmount = m_currencies[currencyName];
+            Devlog.Log($"[CurrencyManager]: Currency {currencyName} value overridden from {currentAmount} to {amount}");
             m_currencies[currencyName] = amount;
             SavePrefs.SaveLong(currencyName, amount);
             OnCurrencyUpdated?.Invoke(currencyName, amount);

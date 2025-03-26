@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     {
         if (m_loadedLevelList == null || m_loadedLevelList.Count == 0)
         {
-            Devlog.LogError("No scenes found in the loaded level list.");
+            Devlog.LogError("[GameManager]: No scenes found in the loaded level list.");
             return;
         }
 
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Devlog.LogWarning($"Scene {m_currentLoadedSceneName} is not valid or not loaded. Cannot unload scene.");
+            Devlog.LogWarning($"[GameManager]: Scene {m_currentLoadedSceneName} is not valid or not loaded. Cannot unload scene.");
         }
     }
 

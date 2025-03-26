@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CurrencyWidget : MonoBehaviour
 {
+    private const string NULL_ID = "Null_ID";
+
     [SerializeField] private TMP_Text m_currencyText;
     [SerializeField] private string m_currencyKey = SaveKeys.Currency.Coins;
 
@@ -21,7 +23,7 @@ public class CurrencyWidget : MonoBehaviour
         if (string.IsNullOrEmpty(m_currencyKey))
         {
             Devlog.LogError($"Currency Key not set on the gameObject: {gameObject.name}.");
-            m_currencyText.text = "Null_ID";
+            m_currencyText.text = NULL_ID;
             return;
         }
         
