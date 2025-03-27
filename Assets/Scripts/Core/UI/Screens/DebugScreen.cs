@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +26,11 @@ public class DebugScreen : ScreenBase
     [SerializeField] private Button m_spendCurrencyButton;
     [SerializeField] private TMP_InputField m_amountInput;
 
+    [Header("Haptics")]
+    [SerializeField] private TMP_Dropdown m_hapticTypeDropdown;
+    [SerializeField] private TMP_InputField m_hapticBurstDurationInput;
+    [SerializeField] private Button m_triggerHapticButton;
+    [SerializeField] private Button m_triggerHapticBurstButton;
 
     private void Start()
     {
@@ -31,6 +38,7 @@ public class DebugScreen : ScreenBase
         SetUpGeneralDebug();
         SetUpLevelProgressDebug();
         SetUpCurrencyDebug();
+        SetUpHapticsDebug();
     }
 
 
@@ -107,4 +115,30 @@ public class DebugScreen : ScreenBase
     #endregion
 
 
+    #region HAPTICS
+    private void SetUpHapticsDebug()
+    {
+        m_triggerHapticButton.onClick.AddListener(TriggerHaptic);
+        m_triggerHapticBurstButton.onClick.AddListener(TriggerHapticBurst);
+
+        m_hapticTypeDropdown.ClearOptions();
+        List<string> hapticTypes = Enum.GetNames(typeof(Haptics.HapticType)).ToList();
+        m_hapticTypeDropdown.AddOptions(hapticTypes);
+    }
+
+    private void TriggerHaptic()
+    {
+        Haptics.HapticType selectedHaptic = (Haptics.HapticType)m_hapticTypeDropdown.value;
+        Haptics.PlayHaptics(selectedHaptic);
+    }
+
+    private void TriggerHapticBurst()
+    {
+        if (int.TryParse(m_hapticBurstDurationInput.text, out int durationMs))
+        {
+            Haptics.HapticType selectedHaptic = (Haptics.HapticType)m_hapticTypeDropdown.value;
+            Haptics.PlayHapticsBurst(durationMs, selectedHaptic);
+        }
+    }
+    #endregion
 }
