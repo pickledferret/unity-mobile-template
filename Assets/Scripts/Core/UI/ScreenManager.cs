@@ -28,13 +28,13 @@ public class ScreenManager : MonoBehaviour
     /// </summary>
     /// <param name="newScreen"></param>
     /// <param name="disablePrevious"></param>
-    public void PushScreen(string screenPath, bool disablePrevious = true)
+    public ScreenBase PushScreen(string screenPath, bool disablePrevious = true)
     {
         ScreenBase loadedScreen = Resources.Load<ScreenBase>(screenPath);
         if (loadedScreen == null)
         {
             Devlog.LogError($"[ScreenManager]: Screen prefab not found at path: {screenPath}");
-            return;
+            return null;
         }
 
         if (m_screenStack.Count > 0 && disablePrevious)
@@ -45,6 +45,8 @@ public class ScreenManager : MonoBehaviour
         ScreenBase newScreen = Instantiate(loadedScreen, m_canvas.transform);
         newScreen.gameObject.SetActive(true);
         m_screenStack.Push(newScreen);
+
+        return newScreen;
     }
 
     /// <summary>
@@ -70,14 +72,14 @@ public class ScreenManager : MonoBehaviour
     /// Replace the top screen in the stack with a new one
     /// </summary>
     /// <param name="newScreen"></param>
-    public void ReplaceScreen(string newScreen)
+    public ScreenBase ReplaceScreen(string newScreen)
     {
         if (m_screenStack.Count > 0)
         {
             PopScreen();
         }
 
-        PushScreen(newScreen);
+        return PushScreen(newScreen);
     }
 
     /// <summary>
