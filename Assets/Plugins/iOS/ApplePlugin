@@ -24,49 +24,46 @@ extern "C"
     #if TARGET_OS_IOS
         if (@available(iOS 10.0, *))
         {
-            UIImpactFeedbackGenerator *generator;
-
             switch (hapticType)
             {
                 case 0: // LightImpact
                 {
-                    generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+                    UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
                     [generator prepare];
                     [generator impactOccurred];
                     break;
                 }
                 case 1: // MediumImpact
                 {
-                    generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+                    UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
                     [generator prepare];
                     [generator impactOccurred];
                     break;
                 }
                 case 2: // HeavyImpact
                 {
-                    UIImpactFeedbackGenerator *generator =
-                        [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+                    UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
                     [generator prepare];
                     [generator impactOccurred];
                     break;
                 }
                 case 3: // Success
                 {
-                    generator = [[UINotificationFeedbackGenerator alloc] init];
+                    UINotificationFeedbackGenerator *generator = [[UINotificationFeedbackGenerator alloc] init];
                     [generator prepare];
                     [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
                     break;
                 }
                 case 4: // Warning
                 {
-                    generator = [[UINotificationFeedbackGenerator alloc] init];
+                    UINotificationFeedbackGenerator *generator = [[UINotificationFeedbackGenerator alloc] init];
                     [generator prepare];
                     [generator notificationOccurred:UINotificationFeedbackTypeWarning];
                     break;
                 }
                 case 5: // Error
                 {
-                    generator = [[UINotificationFeedbackGenerator alloc] init];
+                    UINotificationFeedbackGenerator *generator = [[UINotificationFeedbackGenerator alloc] init];
                     [generator prepare];
                     [generator notificationOccurred:UINotificationFeedbackTypeError];
                     break;
