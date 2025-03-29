@@ -2587,7 +2587,7 @@ GameObject:
   - component: {fileID: 2839534522892820888}
   - component: {fileID: 6855641418452520927}
   m_Layer: 5
-  m_Name: Text-Log
+  m_Name: Text-ToggleConsole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3076,7 +3076,7 @@ GameObject:
   - component: {fileID: 8714517085907785679}
   - component: {fileID: 1739689916069738523}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text-CloseDebug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3129,7 +3129,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CLOSE
+  m_text: 'CLOSE
+
+    DEBUG'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5571,6 +5573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_logText: {fileID: 145395471025899816}
+  m_canvasGroup: {fileID: 3393052706722331509}
 --- !u!1 &5266351619271696007
 GameObject:
   m_ObjectHideFlags: 0
@@ -6028,7 +6031,7 @@ GameObject:
   - component: {fileID: 4941464727703394937}
   - component: {fileID: 6258215075109597803}
   m_Layer: 5
-  m_Name: Text-Log
+  m_Name: Text-ClearConsole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

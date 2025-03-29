@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class DebugLogHandler
+public static class DebugConsoleLogHandler
 {
     public static Queue<string> LogQueue { get; private set; } = new Queue<string>();
     private const int MaxLogs = 1000;
 
     public static event Action OnLogReceived;
 
-    static DebugLogHandler()
+    static DebugConsoleLogHandler()
     {
         Application.logMessageReceived += HandleLog;
     }

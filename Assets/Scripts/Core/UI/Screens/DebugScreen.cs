@@ -55,14 +55,13 @@ public class DebugScreen : ScreenBase
         // Console Log
         m_toggleConsoleLogButton.onClick.AddListener(ToggleConsoleLogVisibility);
         m_clearConsoleLogButton.onClick.AddListener(ClearConsoleLog);
-        m_consoleLog.gameObject.SetActive(false);
-
+        m_consoleLog.ShowConsoleLog(false);
     }
 
     private void ToggleConsoleLogVisibility()
     {
         m_consoleActive = !m_consoleActive;
-        m_consoleLog.ShowLogs(m_consoleActive);
+        m_consoleLog.ShowConsoleLog(m_consoleActive);
     }
 
     private void ClearConsoleLog()
