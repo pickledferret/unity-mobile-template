@@ -5,10 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugScreen : ScreenBase
+public class DebugScreen : MonoBehaviour
 {
-    public const string PATH = "Prefabs/UI/Screens/DebugScreen";
-
+    [SerializeField] private CanvasGroup m_canvasGroup;
+    [SerializeField] private Transform m_scrollViewContent;
     [SerializeField] private Button m_closeDebugScreenButton;
 
     [Header("Debug Console")]
@@ -38,23 +38,76 @@ public class DebugScreen : ScreenBase
     [SerializeField] private Button m_triggerHapticButton;
     [SerializeField] private Button m_triggerHapticBurstButton;
 
-    private void Start()
+#if UNITY_EDITOR || DEVLOG
+    public static event Action OnOpenDebugScreen;
+    public static void TriggerOpenDebugScreen()
     {
+        OnOpenDebugScreen?.Invoke();
+    }
+#endif
+
+
+    private void Awake()
+    {
+#if UNITY_EDITOR || DEVLOG
+        OnOpenDebugScreen += OpenDebugScreen;
+        RegisterListeners();
+        ToggleContent(false);
+#else
+        gameObject.SetActive(false);
+#endif
+    }
+
+    private void OnDestroy()
+    {
+#if UNITY_EDITOR || DEVLOG
+        OnOpenDebugScreen -= OpenDebugScreen;
+#endif
+    }
+
+
+#if UNITY_EDITOR || DEVLOG
+    private void RegisterListeners()
+    {
+        RegisterCoreDebugListeners();
+        RegisterGeneralDebuglisteners();
+        RegisterLevelProgressDebugListeners();
+        RegisterCurrencyDebugListeners();
+        RegisterHapticsDebugListeners();
+    }
+
+    private void ToggleContent(bool show)
+    {
+        for (int i = 0; i < m_scrollViewContent.childCount; i++)
+        {
+            m_scrollViewContent.GetChild(i).gameObject.SetActive(show);
+        }
+    }
+
+    private void Setup()
+    {
+        transform.SetAsLastSibling();
+
         SetUpCoreDebug();
         SetUpGeneralDebug();
         SetUpLevelProgressDebug();
         SetUpCurrencyDebug();
         SetUpHapticsDebug();
+
+        ToggleContent(true);
+    }
+
+    #region CORE DEBUG SETUP
+    private void RegisterCoreDebugListeners()
+    {
+        m_closeDebugScreenButton.onClick.AddListener(CloseDebugScreen);
+        m_toggleConsoleLogButton.onClick.AddListener(ToggleConsoleLogVisibility);
+        m_clearConsoleLogButton.onClick.AddListener(ClearConsoleLog);
     }
 
     private void SetUpCoreDebug()
     {
-        // Close Button
-        m_closeDebugScreenButton.onClick.AddListener(() => ScreenManager.Instance.PopScreen(true));
-
-        // Console Log
-        m_toggleConsoleLogButton.onClick.AddListener(ToggleConsoleLogVisibility);
-        m_clearConsoleLogButton.onClick.AddListener(ClearConsoleLog);
+        m_consoleActive = false;
         m_consoleLog.ShowConsoleLog(false);
     }
 
@@ -69,24 +122,49 @@ public class DebugScreen : ScreenBase
         m_consoleLog.ClearLogs();
     }
 
+    private void OpenDebugScreen()
+    {
+        Setup();
+        m_canvasGroup.alpha = 1f;
+        m_canvasGroup.interactable = true;
+        m_canvasGroup.blocksRaycasts = true;
+    }
+
+    private void CloseDebugScreen()
+    {
+        m_canvasGroup.alpha = 0f;
+        m_canvasGroup.interactable = false;
+        m_canvasGroup.blocksRaycasts = false;
+    }
+    #endregion
+
+
     #region GENERAL
-    private void SetUpGeneralDebug()
+    private void RegisterGeneralDebuglisteners()
     {
         m_clearSavePrefs.onClick.AddListener(SavePrefs.ClearAllKeys);
+    }
+
+    private void SetUpGeneralDebug()
+    {
+        // ..
     }
     #endregion
 
 
     #region LEVEL PROGRESS
+    private void RegisterLevelProgressDebugListeners()
+    {
+        m_overrideLevelButton.onClick.AddListener(OverrideLevel);
+        m_levelOverride.onValueChanged.AddListener(LevelOverrideValueChanged);
+    }
+
     private void SetUpLevelProgressDebug()
     {
         m_currentLevel.text = $"Current Level Index: {GameManager.CurrentLevelIndex}";
 
         int maxLevelIndex = GameManager.Instance.GetNumberOfLevels() - 1;
         m_maxLevelIndex.text = $"Max Level Index: {maxLevelIndex}";
-
-        m_overrideLevelButton.onClick.AddListener(OverrideLevel);
-        m_levelOverride.onValueChanged.AddListener(LevelOverrideValueChanged);
     }
 
     private void LevelOverrideValueChanged(string val)
@@ -112,14 +190,17 @@ public class DebugScreen : ScreenBase
 
 
     #region CURRENCY DEBUG
+    private void RegisterCurrencyDebugListeners()
+    {
+        m_addCurrencyButton.onClick.AddListener(AddCurrency);
+        m_spendCurrencyButton.onClick.AddListener(SpendCurrency);
+    }
+
     private void SetUpCurrencyDebug()
     {
         m_currencyDropdown.ClearOptions();
         List<string> currencies = new List<string>(SaveKeys.Currency.AllCurrencyKeys);
         m_currencyDropdown.AddOptions(currencies);
-
-        m_addCurrencyButton.onClick.AddListener(AddCurrency);
-        m_spendCurrencyButton.onClick.AddListener(SpendCurrency);
     }
 
     private void AddCurrency()
@@ -143,11 +224,14 @@ public class DebugScreen : ScreenBase
 
 
     #region HAPTICS
-    private void SetUpHapticsDebug()
+    private void RegisterHapticsDebugListeners()
     {
         m_triggerHapticButton.onClick.AddListener(TriggerHaptic);
         m_triggerHapticBurstButton.onClick.AddListener(TriggerHapticBurst);
+    }
 
+    private void SetUpHapticsDebug()
+    {
         m_hapticTypeDropdown.ClearOptions();
         List<string> hapticTypes = Enum.GetNames(typeof(Haptics.HapticType)).ToList();
         m_hapticTypeDropdown.AddOptions(hapticTypes);
@@ -168,4 +252,7 @@ public class DebugScreen : ScreenBase
         }
     }
     #endregion
+
+
+#endif
 }

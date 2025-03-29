@@ -987,8 +987,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6813856559864739792}
   m_HandleRect: {fileID: 2360519772148726216}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.8731221
+  m_Value: 1.0000004
+  m_Size: 0.7530366
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5556,9 +5556,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5225114443168292621}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &5770971086951633009
 MonoBehaviour:
@@ -6277,6 +6277,7 @@ GameObject:
   - component: {fileID: 5129314543930144935}
   - component: {fileID: 1026103881986416324}
   - component: {fileID: 408078869627556536}
+  - component: {fileID: 7480888937868612638}
   m_Layer: 5
   m_Name: DebugScreen
   m_TagString: Untagged
@@ -6361,6 +6362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8fb2d523e14f94b8e5ec8363485124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_canvasGroup: {fileID: 7480888937868612638}
+  m_scrollViewContent: {fileID: 3595820774936507486}
   m_closeDebugScreenButton: {fileID: 8332188562473053535}
   m_toggleConsoleLogButton: {fileID: 7066877298802849195}
   m_clearConsoleLogButton: {fileID: 1890427852451668313}
@@ -6378,6 +6381,18 @@ MonoBehaviour:
   m_hapticBurstDurationInput: {fileID: 5934292352914445655}
   m_triggerHapticButton: {fileID: 8578020780852215426}
   m_triggerHapticBurstButton: {fileID: 4407714762545032094}
+--- !u!225 &7480888937868612638
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199172806513641071}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6315651146325396056
 GameObject:
   m_ObjectHideFlags: 0

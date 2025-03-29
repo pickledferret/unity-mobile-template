@@ -1,3 +1,4 @@
+#if UNITY_EDITOR || DEVLOG
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,11 @@ public static class DebugConsoleLogHandler
     static DebugConsoleLogHandler()
     {
         Application.logMessageReceived += HandleLog;
+    }
+    
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Init()
+    {
     }
 
     private static void HandleLog(string logString, string stackTrace, LogType type)
@@ -34,3 +40,4 @@ public static class DebugConsoleLogHandler
         OnLogReceived?.Invoke();
     }
 }
+#endif

@@ -60,11 +60,10 @@ public class SettingsPopUp : PopUpBase
         m_content.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() => ClosePopUp());
     }
 
-#if UNITY_EDITOR || DEVLOG
     public void OnDebugButtonPressed()
     {
-        ScreenManager.Instance.PushScreen(DebugScreen.PATH, false);
-    }
+#if UNITY_EDITOR || DEVLOG
+        DebugScreen.TriggerOpenDebugScreen();
 #endif
-
+    }
 }
