@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
 using System;
 using System.Collections.Generic;
 using UnityEngine;

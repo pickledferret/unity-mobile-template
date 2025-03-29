@@ -9,7 +9,7 @@ public class DebugConsoleLog : MonoBehaviour
 
     public void ShowConsoleLog(bool show)
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         m_canvasGroup.alpha = show ? 1 : 0;
         m_canvasGroup.blocksRaycasts = show;
 
@@ -27,6 +27,7 @@ public class DebugConsoleLog : MonoBehaviour
 
     private void UpdateLogText()
     {
+#if DEVLOG
         StringBuilder logBuilder = new();
 
         foreach (string log in DebugConsoleLogHandler.LogQueue)
@@ -35,11 +36,12 @@ public class DebugConsoleLog : MonoBehaviour
         }
 
         m_logText.text = logBuilder.ToString();
+#endif
     }
 
     public void ClearLogs()
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         DebugConsoleLogHandler.LogQueue.Clear();
         m_logText.text = "";
 #endif

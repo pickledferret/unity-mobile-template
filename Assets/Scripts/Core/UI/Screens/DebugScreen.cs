@@ -38,7 +38,7 @@ public class DebugScreen : MonoBehaviour
     [SerializeField] private Button m_triggerHapticButton;
     [SerializeField] private Button m_triggerHapticBurstButton;
 
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
     public static event Action OnOpenDebugScreen;
     public static void TriggerOpenDebugScreen()
     {
@@ -49,7 +49,7 @@ public class DebugScreen : MonoBehaviour
 
     private void Awake()
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         OnOpenDebugScreen += OpenDebugScreen;
         RegisterListeners();
         ToggleContent(false);
@@ -60,13 +60,13 @@ public class DebugScreen : MonoBehaviour
 
     private void OnDestroy()
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         OnOpenDebugScreen -= OpenDebugScreen;
 #endif
     }
 
 
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
     private void RegisterListeners()
     {
         RegisterCoreDebugListeners();

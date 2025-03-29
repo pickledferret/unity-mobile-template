@@ -35,7 +35,7 @@ public class SettingsPopUp : PopUpBase
 
     private void ConfigDebugButton()
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         m_debugButtonGroup.SetActive(true);
 #else
         m_debugButtonGroup.SetActive(false);
@@ -62,7 +62,7 @@ public class SettingsPopUp : PopUpBase
 
     public void OnDebugButtonPressed()
     {
-#if UNITY_EDITOR || DEVLOG
+#if DEVLOG
         DebugScreen.TriggerOpenDebugScreen();
 #endif
     }
