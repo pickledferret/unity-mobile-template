@@ -11,6 +11,12 @@ public class DebugScreen : ScreenBase
 
     [SerializeField] private Button m_closeDebugScreenButton;
 
+    [Header("Debug Console")]
+    [SerializeField] private Button m_toggleConsoleLogButton;
+    [SerializeField] private Button m_clearConsoleLogButton;
+    [SerializeField] private DebugConsoleLog m_consoleLog;
+    private bool m_consoleActive;
+
     [Header("General")]
     [SerializeField] private Button m_clearSavePrefs;
 
@@ -34,13 +40,35 @@ public class DebugScreen : ScreenBase
 
     private void Start()
     {
-        m_closeDebugScreenButton.onClick.AddListener(() => ScreenManager.Instance.PopScreen(true));
+        SetUpCoreDebug();
         SetUpGeneralDebug();
         SetUpLevelProgressDebug();
         SetUpCurrencyDebug();
         SetUpHapticsDebug();
     }
 
+    private void SetUpCoreDebug()
+    {
+        // Close Button
+        m_closeDebugScreenButton.onClick.AddListener(() => ScreenManager.Instance.PopScreen(true));
+
+        // Console Log
+        m_toggleConsoleLogButton.onClick.AddListener(ToggleConsoleLogVisibility);
+        m_clearConsoleLogButton.onClick.AddListener(ClearConsoleLog);
+        m_consoleLog.gameObject.SetActive(false);
+
+    }
+
+    private void ToggleConsoleLogVisibility()
+    {
+        m_consoleActive = !m_consoleActive;
+        m_consoleLog.ShowLogs(m_consoleActive);
+    }
+
+    private void ClearConsoleLog()
+    {
+        m_consoleLog.ClearLogs();
+    }
 
     #region GENERAL
     private void SetUpGeneralDebug()
