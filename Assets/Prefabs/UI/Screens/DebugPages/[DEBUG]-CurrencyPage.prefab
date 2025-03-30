@@ -1641,8 +1641,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Select Currency:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d799c0c0384fd9f4fb5fb86f17d989c9, type: 2}
-  m_sharedMaterial: {fileID: -216746999055558095, guid: d799c0c0384fd9f4fb5fb86f17d989c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2710,7 +2710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999175497922187985, guid: 8481dc30287d7224b8d4e2ec594135e5, type: 3}
       propertyPath: m_Name
-      value: '[DEBUG]-Currency Variant'
+      value: '[DEBUG]-CurrencyPage'
       objectReference: {fileID: 0}
     - target: {fileID: 5541427859880897871, guid: 8481dc30287d7224b8d4e2ec594135e5, type: 3}
       propertyPath: m_text
