@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenes:
   - {fileID: 102900000, guid: ae4d533114adbef41ba003a1215d433e, type: 3}
-  - {fileID: 102900000, guid: 54588402647a1914ca775641c484562e, type: 3}
+  loopingLevels: 0
+  elementToLoopBackTo: 1
   m_savedSceneNameOrder:
   - Level0
-  - Level1

@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 [InitializeOnLoad]
 public class PlayModeBootstrap
 {
-    private static string BOOTSTRAP_SCENE = "Assets/Scenes/Bootstrap.unity";
-    private static readonly string LOADED_SCENES_KEY = "Loaded_Scenes";
+    private const string BOOTSTRAP_SCENE = "Assets/Scenes/Bootstrap.unity";
+    private const string LOADED_SCENES_KEY = "Loaded_Scenes";
 
     private static List<string> m_savedScenes = new();
 
@@ -37,7 +37,9 @@ public class PlayModeBootstrap
     private static void OnEnterPlayMode()
     {
         if (!EditorApplication.isPlayingOrWillChangePlaymode)
+        {
             return;
+        }
 
         EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 

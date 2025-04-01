@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5377358, g: 0.0076094554, b: 0.20126648, a: 1}
+  m_Color: {r: 0.24670699, g: 0.6792453, b: 0.67301106, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -86,10 +86,10 @@ GameObject:
   - component: {fileID: 4271049307903451454}
   - component: {fileID: 5752285479748945460}
   - component: {fileID: 6766186774518893049}
-  - component: {fileID: 7544488266384878844}
+  - component: {fileID: 1942055956569425987}
   - component: {fileID: 686621167263752634}
   m_Layer: 5
-  m_Name: LevelCompleteScreen
+  m_Name: GameCompleteScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7544488266384878844
+--- !u!114 &1942055956569425987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3414646809651562524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a67f09eef55874c848fa192199cbaa, type: 3}
+  m_Script: {fileID: 11500000, guid: aac6a72b8df173a41849a666a332f1cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &686621167263752634
@@ -180,7 +180,7 @@ Animator:
   m_GameObject: {fileID: 3414646809651562524}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e19bb522b9807af48b223e4a10392a78, type: 2}
+  m_Controller: {fileID: 9100000, guid: 57b83da58d94df740931480d75a31667, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33577397, g: 0, b: 0.8867924, a: 1}
+  m_Color: {r: 0.5372549, g: 0.85882354, b: 0.639749, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 2708226035274801760}
   - component: {fileID: 1238165247420043798}
   m_Layer: 5
-  m_Name: Text-LevelComplete
+  m_Name: Text-GameComplete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level Complete!
+  m_text: GAME COMPLETE!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d799c0c0384fd9f4fb5fb86f17d989c9, type: 2}
   m_sharedMaterial: {fileID: -216746999055558095, guid: d799c0c0384fd9f4fb5fb86f17d989c9, type: 2}
@@ -515,7 +515,15 @@ PrefabInstance:
     - target: {fileID: 3810895321401501196, guid: 25a77d6b6cf95e2449524db1a3079349, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7544488266384878844}
+      objectReference: {fileID: 1942055956569425987}
+    - target: {fileID: 3810895321401501196, guid: 25a77d6b6cf95e2449524db1a3079349, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRestartGamePressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810895321401501196, guid: 25a77d6b6cf95e2449524db1a3079349, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameCompleteScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4903312403655213463, guid: 25a77d6b6cf95e2449524db1a3079349, type: 3}
       propertyPath: m_Name
       value: Button-Continue

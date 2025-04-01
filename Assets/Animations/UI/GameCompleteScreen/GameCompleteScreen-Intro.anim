@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LevelCompleteScreen-Intro
+  m_Name: GameCompleteScreen-Intro
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -101,7 +101,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Text-LevelComplete
+    path: Text-GameComplete
   m_FloatCurves:
   - serializedVersion: 2
     curve:
@@ -229,7 +229,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4159074251
+      path: 1154697764
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -582,7 +582,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Text-LevelComplete
+    path: Text-GameComplete
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -630,7 +630,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Text-LevelComplete
+    path: Text-GameComplete
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -678,7 +678,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Text-LevelComplete
+    path: Text-GameComplete
     classID: 224
     script: {fileID: 0}
     flags: 0

@@ -47,13 +47,16 @@ public class GameManager : MonoBehaviour
     private void OnSplashScreenFinished()
     {
         SplashScreen.OnSplashScreenFinished -= OnSplashScreenFinished;
-        DisplayStartScreen();
+        ShowStartScreen();
     }
 
-    private void DisplayStartScreen()
-    {
-        ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
-    }
+    /// -- Screen display --
+    private void ShowStartScreen() => ScreenManager.Instance.ReplaceScreen(StartScreen.PATH);
+    private void ShowGameScreen() => ScreenManager.Instance.ReplaceScreen(GameScreen.PATH);
+    private void ShowLevelCompleteScreen() => ScreenManager.Instance.ReplaceScreen(LevelCompleteScreen.PATH);
+    private void ShowLevelFailedScreen() => ScreenManager.Instance.ReplaceScreen(LevelFailedScreen.PATH);
+    private void ShowGameCompleteScreen() => ScreenManager.Instance.ReplaceScreen(GameCompleteScreen.PATH);
+    /// -----------------------------------------------------------------------------------------
 
     private void PlayBackgroundMusic()
     {
@@ -70,6 +73,16 @@ public class GameManager : MonoBehaviour
         }
 
         m_currentLevelIndex = SavePrefs.LoadInt(SaveKeys.Progression.CurrentLevelIndex);
+
+        if (m_currentLevelIndex >= m_loadedLevelList.Count || m_currentLevelIndex < 0)
+        {
+            // Note: If you enter this check, liklihood is that the player quit the game after completing the last level, but before ResetGameProgressToBeginning() is called.
+            //       resets game progress back to 0 for safety.
+            Devlog.LogWarning($"[GameManager]: Level Index: ({m_currentLevelIndex}) exceeds the current level list length. Resetting game progress to 0.");
+            m_currentLevelIndex = 0;
+            SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
+        }
+
         m_currentLoadedSceneName = m_loadedLevelList[m_currentLevelIndex];
 
         SceneManager.LoadScene(m_currentLoadedSceneName, LoadSceneMode.Additive);
@@ -88,65 +101,82 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LevelStarted()
+    public void StartLevel()
     {
         GameplayEvents.TriggerLevelStart();
-        ScreenManager.Instance.ReplaceScreen(GameScreen.PATH);
+        ShowGameScreen();
     }
 
-    public void LevelCompleted()
+    public void CompleteLevel()
     {
         AudioManager audioManager = AudioManager.Instance;
         audioManager.PlaySFXAudio(audioManager.AudioSoundList.sfx.levelCompleteSFX);
 
-        m_currentLevelIndex++;
-
-        if (m_currentLevelIndex == m_loadedLevelList.Count)
-        {
-            // Max Level Reached.. Go back to the start.
-            m_currentLevelIndex = 0;
-        }
-
+        IncrementLevelIndex();
         SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
 
-        ScreenManager.Instance.ReplaceScreen(LevelCompleteScreen.PATH);
+        ShowLevelCompleteScreen();
     }
 
-    public void LevelFailed()
+    public void FailLevel()
     {
-        ScreenManager.Instance.ReplaceScreen(LevelFailedScreen.PATH);
+        ShowLevelFailedScreen();
     }
 
-    public void GoToNextLevel()
+    private void IncrementLevelIndex()
     {
-        FadeOutAndLoadCurrentLevel();
+        m_currentLevelIndex++;
+
+        // Check If Max Level Reached
+        if (m_currentLevelIndex >= m_loadedLevelList.Count)
+        {
+            if (m_levelList.loopingLevels)
+            {
+                m_currentLevelIndex = Mathf.Clamp(m_levelList.elementToLoopBackTo, 0, m_loadedLevelList.Count);
+            }
+        }
+    }
+
+    public void LoadNextLevel()
+    {
+        PerformSceneTransition(CheckForGameCompletion);
+    }
+
+    private void CheckForGameCompletion()
+    {
+        if (m_currentLevelIndex >= m_loadedLevelList.Count)
+        {
+            ShowGameCompleteScreen();
+        }
+        else
+        {
+            ReloadCurrentScene();
+        }
     }
 
     public void ResetCurrentLevel()
     {
-        FadeOutAndLoadCurrentLevel();
+        PerformSceneTransition(ReloadCurrentScene);
     }
 
-    private void FadeOutAndLoadCurrentLevel()
-    {
-        FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
-        screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
-    }
-
-    public void ResetGameToBeginning()
+    public void ResetGameProgressToBeginning()
     {
         m_currentLevelIndex = 0;
         SavePrefs.SaveInt(SaveKeys.Progression.CurrentLevelIndex, m_currentLevelIndex);
-
-        FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
-        screenFade.FullFade(0.5f, ReloadLevelScene, 0.1f, 0.5f, null);
+        PerformSceneTransition(ReloadCurrentScene);
     }
 
-    private void ReloadLevelScene()
+    private void PerformSceneTransition(Action onBlackScreenCallback)
+    {
+        FadeToBlackPopUp screenFade = ScreenManager.Instance.ShowPopUp<FadeToBlackPopUp>(FadeToBlackPopUp.PATH);
+        screenFade.FullFade(0.5f, onBlackScreenCallback, 0.1f, 0.5f, null);
+    }
+
+    private void ReloadCurrentScene()
     {
         UnloadCurrentLevel();
         LoadCurrentLevel();
-        DisplayStartScreen();
+        ShowStartScreen();
     }
 
     public int GetNumberOfLevels()
